@@ -17,12 +17,43 @@ type Article struct {
 	Desc string `json:"desc"`
 	Content string `json:"content"`
 }
+
+type Config struct {
+	AdminName   string   `json:"adminName"`
+	Permissions []string `json:"permissions"`
+}
+
+type User struct {
+	ID         int    `json:"id"`
+	Name       string `json:"name"`
+	CardNumber string `json:"cardNumber"`
+	CardType   string `json:"cardType"`
+}
+
+type UserSet struct {
+	Users []User `json:"users"`
+}
+
 var Articles []Article
+var config Config
+var Users1 []User
+var users UserSet 
+var str []string
 
 // sort of controller
 func homePage(w http.ResponseWriter, r *http.Request){
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 	fmt.Println("Endpoint Hit: HomePage")
+}
+
+func getConfig(w http.ResponseWriter, r *http.Request){
+	fmt.Println("EndPoint Hit: getConfig");
+	json.NewEncoder(w).Encode(config)
+}
+
+func getUsers(w http.ResponseWriter, r *http.Request){
+	fmt.Println("EndPoint Hit: getConfig");
+	json.NewEncoder(w).Encode(users)
 }
 
 func getAllActicles(w http.ResponseWriter, r *http.Request){
@@ -93,11 +124,27 @@ func main(){
 	fmt.Println(port)
 	fmt.Println("Rest API v2.0 - Mux Routers")
 	fmt.Println("Restful API running in host:8000")
+
+
+
 	Articles = []Article{
 		Article{Id: "1", Title: "Hello 1", Desc: "Article Description", Content: "Article Content"},
 		Article{Id: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
 		Article{Id: "3", Title: "Hello 3", Desc: "Article Description", Content: "Article Content"},
 	}
+
+	str := []string{"users"}
+
+	config = Config{AdminName: "El Maestro Tabarez", Permissions: str}
+
+	Users1 = []User{
+		User{ID: 1, Name: "Luis Suarez", CardNumber: "XXXX-XXXX-XXXX-4321", CardType: "Visa"},
+		User{ID: 1, Name: "David Suarz", CardNumber: "XXXX-XXXX-XXXX-4121", CardType: "Master"},
+		User{ID: 1, Name: "Laury Sur", CardNumber: "XXXX-XXXX-XXXX-4111", CardType: "American Express"},
+	}
+
+	users = UserSet{Users: Users1}
+
 	myRouter := mux.NewRouter().StrictSlash(true)
 	// replace http.HandleFunc with myRouter.HandleFunc
 	//Try sending a new HTTP DELETE request to http://localhost:10000/article/2. 
@@ -105,6 +152,8 @@ func main(){
 	//when you subsequently hit http://localhost:10000/articles with a HTTP GET request, 
 	//you should see it now only contains a single Article.
 	myRouter.HandleFunc("/", homePage)
+	myRouter.HandleFunc("/config", getConfig)
+	myRouter.HandleFunc("/users", getUsers)
 	myRouter.HandleFunc("/articles", getAllActicles)
 	myRouter.HandleFunc("/article", createNewArticle).Methods("POST")
 	//delete must put before getone, otherwise it will not trigger delete!!!!!

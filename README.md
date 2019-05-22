@@ -18,3 +18,5 @@ use the following command before deploy
 2. godep save 
 
 setup the port to env.port with priority!
+
+website: https://mholt.github.io/json-to-go/ to get json convert to go!
