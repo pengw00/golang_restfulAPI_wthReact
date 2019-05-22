@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"net/http"
 	"encoding/json"
 	"io/ioutil"
-	
 	"github.com/gorilla/mux"
 )
 
@@ -80,8 +80,24 @@ func getOneArticle(w http.ResponseWriter, r *http.Request){
 	}
 
 //router and mapping endpoint
-func handleRequests() {
-	//create new instance of mux
+// func handleRequests() {
+	
+// create new instance of mux
+
+func main(){
+	//setup port
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000" //localhost
+		}
+	fmt.Println(port)
+	fmt.Println("Rest API v2.0 - Mux Routers")
+	fmt.Println("Restful API running in host:8000")
+	Articles = []Article{
+		Article{Id: "1", Title: "Hello 1", Desc: "Article Description", Content: "Article Content"},
+		Article{Id: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
+		Article{Id: "3", Title: "Hello 3", Desc: "Article Description", Content: "Article Content"},
+	}
 	myRouter := mux.NewRouter().StrictSlash(true)
 	// replace http.HandleFunc with myRouter.HandleFunc
 	//Try sending a new HTTP DELETE request to http://localhost:10000/article/2. 
@@ -95,16 +111,5 @@ func handleRequests() {
 	myRouter.HandleFunc("/article/{id}", deleteArticle).Methods("DELETE")
 	myRouter.HandleFunc("/article/{id}", getOneArticle)
 	
-	log.Fatal(http.ListenAndServe(":10000", myRouter))
-}
-
-func main(){
-	fmt.Println("Rest API v2.0 - Mux Routers")
-	fmt.Println("Restful API running in host:10000")
-	Articles = []Article{
-		Article{Id: "1", Title: "Hello 1", Desc: "Article Description", Content: "Article Content"},
-		Article{Id: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
-		Article{Id: "3", Title: "Hello 3", Desc: "Article Description", Content: "Article Content"},
-	}
-	handleRequests()
+	log.Fatal(http.ListenAndServe(":" + port, myRouter))
 }
