@@ -41,17 +41,25 @@ var users UserSet
 var str []string
 
 // sort of controller
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+    (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func homePage(w http.ResponseWriter, r *http.Request){
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 	fmt.Println("Endpoint Hit: HomePage")
 }
 
 func getConfig(w http.ResponseWriter, r *http.Request){
+	enableCors(&w);
 	fmt.Println("EndPoint Hit: getConfig");
 	json.NewEncoder(w).Encode(config)
 }
 
 func getUsers(w http.ResponseWriter, r *http.Request){
+	enableCors(&w);
 	fmt.Println("EndPoint Hit: getConfig");
 	json.NewEncoder(w).Encode(users)
 }
