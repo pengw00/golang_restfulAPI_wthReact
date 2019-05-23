@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"github.com/gorilla/mux"
+	"goapi/app"
+	"goapi/controllers"
 )
 
 //1. data struct model
@@ -159,6 +161,12 @@ func main(){
 	//This will delete the second article within your Articles array and 
 	//when you subsequently hit http://localhost:10000/articles with a HTTP GET request, 
 	//you should see it now only contains a single Article.
+	myRouter.Use(app.JwtAuthentication)
+
+	myRouter.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
+	myRouter.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
+	myRouter.HandleFunc("/api/me/contacts", controllers.GetContactsFor).Methods("GET")
+
 	myRouter.HandleFunc("/", homePage)
 	myRouter.HandleFunc("/config", getConfig)
 	myRouter.HandleFunc("/users", getUsers)
