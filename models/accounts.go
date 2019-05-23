@@ -60,9 +60,9 @@ func (account *Account) Create() (map[string] interface{}){
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
 	account.Password = string(hashedPassword)
 
-	GetDB().Create(account)
-	
-	if(account.ID <= 0) {
+	GetDB().Create(account) // neglect this code will be disaster hell!!
+
+	if(account.ID <= 0) { //check whether the account is created!
 		return u.Message(false, "Failed to create account, connection error.")
 	}
 	//create new JWT token for the newly registered account
