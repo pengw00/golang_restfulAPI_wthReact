@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	u "goapi/utils"
 	"strings"
@@ -29,6 +30,7 @@ type Account struct {
 // Validate incoming user details...
 
 func (account *Account) Validate() (map[string] interface{}, bool){
+	fmt.Println("validation beginning!");
 	if !strings.Contains(account.Email, "@"){
 		return u.Message(false, "Email address is required"), false
 	}

@@ -26,6 +26,7 @@ func init(){
 
 	conn, err := gorm.Open("postgres", dbUri)
 	if err != nil {
+		fmt.Println(dbUri)
 		fmt.Print(err)
 	}
 
@@ -35,5 +36,6 @@ func init(){
 	//returns a handle to the DB object
 }
 	func GetDB() *gorm.DB {
+		fmt.Println("getDB running!!")
 		return db
 	}
