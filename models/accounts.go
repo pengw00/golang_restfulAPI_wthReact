@@ -34,11 +34,10 @@ func (account *Account) Validate() (map[string] interface{}, bool){
 	if !strings.Contains(account.Email, "@"){
 		return u.Message(false, "Email address is required"), false
 	}
-
+	fmt.Println("email address is good")
 	if len(account.Password) < 6{
 		return u.Message(false, "Password is required and must be 6 word"), false
 	}
-
 	//email must be unique
 	temp := &Account{}
 
@@ -46,11 +45,11 @@ func (account *Account) Validate() (map[string] interface{}, bool){
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return u.Message(false, "Connection error. Please retry"), false
 	}
-
+	fmt.Println("record found!")
 	if temp.Email != "" {
 		return u.Message(false, "Email address already in use by another user."), false
 	}
-
+	fmt.Println("record found!")
 	return u.Message(false, "Requirement passed"), true
 }
 
@@ -61,6 +60,8 @@ func (account *Account) Create() (map[string] interface{}){
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
 	account.Password = string(hashedPassword)
 
+	GetDB().Create(account)
+	
 	if(account.ID <= 0) {
 		return u.Message(false, "Failed to create account, connection error.")
 	}
