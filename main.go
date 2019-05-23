@@ -176,6 +176,7 @@ func main(){
 
 	myRouter.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
 	myRouter.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
+	myRouter.HandleFunc("/api/contacts/new", controllers.CreateContact).Methods("POST")
 	myRouter.HandleFunc("/api/me/contacts", controllers.GetContactsFor).Methods("GET")
 	log.Fatal(http.ListenAndServe(":" + port, myRouter))
 }
