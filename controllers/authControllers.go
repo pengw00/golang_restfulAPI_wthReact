@@ -9,6 +9,7 @@ import (
 
 var CreateAccount = func(w http.ResponseWriter, r *http.Request){
 	account := &models.Account{}
+	
 	err := json.NewDecoder(r.Body).Decode(account) //decode the request body into struct and failed if any error accor
 	if err != nil {
 		u.Respond(w, u.Message(false, "Invalid request"))
