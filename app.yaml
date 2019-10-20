@@ -1,8 +1,9 @@
 runtime: go
-
 api_version: go1
-
+env: standard
+handlers:
+- url: /.*
+  script: _go_app
 service: go-data-service
-skip_files: ^node_modules/(?!node\.js$).*
 beta_settings:
   cloud_sql_instances: pwu4-2078a:us-central1:hou-data-service
