@@ -26,3 +26,6 @@ website: https://mholt.github.io/json-to-go/ to get json convert to go!
 #debug hell: forget the create database when create item in db DB.create(accoount)!!!!!
 
 #  not auth endpoints:api/user/new && api/user/login && auth: api/me/contact
+
+#Update: 
+Go Mod && go Sum with sove the dependencies management
